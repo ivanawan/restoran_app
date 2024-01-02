@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:logger/logger.dart';
 import 'package:restoran_app/screens/detail.dart';
 import 'package:restoran_app/models/restaurant.dart';
+import 'package:restoran_app/screens/initial_screen.dart';
 import 'package:restoran_app/screens/my_home_page.dart';
 
 void main() {
@@ -35,7 +36,8 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const MyHomePage(title: 'Flutter Resto APP'),
+      home:  initialScreen(),
     );
   }
 }
+
