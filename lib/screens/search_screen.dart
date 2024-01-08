@@ -3,15 +3,15 @@ import 'package:provider/provider.dart';
 import 'package:restoran_app/providers/search_resto_provider.dart';
 import 'package:restoran_app/widgets/restaurant_card.dart';
 
-class Search extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => SearchRestoProvider(),
-      child: SearchScreen(),
-    );
-  }
-}
+// class Search extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return ChangeNotifierProvider(
+//       create: (context) => SearchRestoProvider(),
+//       child: SearchScreen(),
+//     );
+//   }
+// }
 
 class SearchScreen extends StatefulWidget {
   @override
@@ -23,7 +23,8 @@ class _SearchScreenState extends State<SearchScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
+    return Scaffold(
+      body: SingleChildScrollView(
       child: Padding(
           padding: const EdgeInsets.all(17),
           child: Column(
@@ -79,6 +80,7 @@ class _SearchScreenState extends State<SearchScreen> {
               })
             ],
           )),
+    )
     );
   }
 }

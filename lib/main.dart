@@ -3,6 +3,7 @@ import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:provider/provider.dart';
 import 'package:restoran_app/providers/resto_favorite.dart';
 import 'package:restoran_app/providers/scheduling_provider.dart';
+import 'package:restoran_app/providers/search_resto_provider.dart';
 import 'package:restoran_app/screens/detail.dart';
 import 'package:restoran_app/screens/initial_screen.dart';
 import 'package:restoran_app/utils/background_service.dart';
@@ -34,6 +35,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(providers: [
       ChangeNotifierProvider(create: (_) => RestoFavoriteProvider()),
       ChangeNotifierProvider(create: (_) => SchedulingProvider()),
+      ChangeNotifierProvider(create: (_) => SearchRestoProvider()),
     ],child: MaterialApp(
       title: 'Flutter Resto APP',
       theme: ThemeData(
