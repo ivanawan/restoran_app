@@ -1,38 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:restoran_app/providers/detail_resto_provider.dart';
+import 'package:restoran_app/widgets/favorit_btn.dart';
 
-class Detail extends StatelessWidget {
+class Detail extends StatefulWidget {
   late String id;
-  Detail({required this.id});
+  Detail({super.key, required this.id});
+
+  @override
+  State<Detail> createState() => DetailData();
+}
+
+class DetailData extends State<Detail> {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider<DetailRestoProvider>(
-      create: (_) => DetailRestoProvider(id: id),
-      child: DetailData(),
+      create: (_) => DetailRestoProvider(id: widget.id),
+      child: consumerWidget(),
     );
   }
-}
 
-class DetailData extends StatelessWidget {
-  // late RestaurantDetail? restaurant;
-
-  // DetailData({Key? key, required this.restaurant}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    // return Consumer<DetailRestoProvider>(builder: (context,state, _){
-    //   if (state.state == ResultState.loading) {
-    //     return const Center(child: CircularProgressIndicator());
-    //   } else if (state.state == ResultState.hasData) {
-    //     Logger().w(state.result);
-    // return Text('heh');
+  Widget consumerWidget() {
     return Scaffold(
         body: Consumer<DetailRestoProvider>(builder: (context, state, _) {
-         if (state.state == ResultState.loading) {
-           return const Center(child: CircularProgressIndicator());
-          } else if (state.state == ResultState.hasData) {
-            return NestedScrollView(
+      if (state.state == ResultState.loading) {
+        return const Center(child: CircularProgressIndicator());
+      } else if (state.state == ResultState.hasData) {
+        return NestedScrollView(
             headerSliverBuilder: (context, isScrolled) {
               return [
                 SliverAppBar(
@@ -54,12 +48,19 @@ class DetailData extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      state.result.name,
-                      style: const TextStyle(
-                          fontSize: 30, fontWeight: FontWeight.w500),
-                    ),
                     const SizedBox(height: 10),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          state.result.name,
+                          style: const TextStyle(
+                              fontSize: 20, fontWeight: FontWeight.w500),
+                        ),
+                        FavoritBtn(id: state.result.id)
+                      ],
+                    ),
+                    const SizedBox(height: 30),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -101,7 +102,7 @@ class DetailData extends StatelessWidget {
                       ],
                     ),
                     const SizedBox(height: 30),
-                    Text(state.result.description),
+                    Text(state.result.description ?? ''),
                     const SizedBox(height: 30),
                     const Text("Drinks :",
                         style: TextStyle(

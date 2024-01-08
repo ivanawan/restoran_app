@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:logger/logger.dart';
 import 'package:restoran_app/data/api/api_service.dart';
 import 'package:restoran_app/models/restaurant.dart';
 
@@ -24,16 +23,9 @@ class DetailRestoProvider extends ChangeNotifier{
       _state = ResultState.loading;
       notifyListeners();
       final resto = await ApiService().getRestourantDetail(id);
-      Logger().i(resto);
-      // if (resto.isEmpty) {
-      //   _state = ResultState.noData;
-      //   notifyListeners();
-      //   return _message = 'Empty Data';
-      // } else {
         _state = ResultState.hasData;
         notifyListeners();
         return _restaurantResult = resto;
-      // }
     } on SocketException {
       _state = ResultState.error;
       notifyListeners();

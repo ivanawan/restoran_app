@@ -1,17 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:restoran_app/screens/favorit_screen.dart';
 import 'package:restoran_app/screens/my_home_page.dart';
-import 'package:restoran_app/screens/search_screen.dart';
+import 'package:restoran_app/screens/setting_screen.dart';
+import 'package:restoran_app/utils/notification_helper.dart';
 
-class initialScreen extends StatefulWidget{
+class initialScreen extends StatefulWidget {
   @override
-  State<initialScreen> createState() =>_initialScreenState();
+  State<initialScreen> createState() => _initialScreenState();
 }
 
-class _initialScreenState extends State<initialScreen>{
+class _initialScreenState extends State<initialScreen> {
   int _selectedIndex = 0;
-  static  final List<Widget> _widgetOptions = <Widget>[
+  static final List<Widget> _widgetOptions = <Widget>[
     MyHomePage(),
-    Search()
+    FavoritScreen(),
+    SettingScreen()
   ];
 
   void _onItemTapped(int index) {
@@ -21,9 +24,19 @@ class _initialScreenState extends State<initialScreen>{
   }
 
   @override
+  void initState() {
+NotificationHelper().configureSelectNotificationSubject('/detail');
+  }
+
+  @override
+  void dispose() {
+    selectNotificationSubject.close();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-     body: _widgetOptions[_selectedIndex],
+      body: _widgetOptions[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
@@ -31,8 +44,12 @@ class _initialScreenState extends State<initialScreen>{
             label: 'Home',
           ),
           BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: 'Search',
+            icon: Icon(Icons.star),
+            label: 'Favorite',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.settings),
+            label: 'Setting',
           )
         ],
         currentIndex: _selectedIndex,
@@ -41,5 +58,4 @@ class _initialScreenState extends State<initialScreen>{
       ),
     );
   }
-
 }

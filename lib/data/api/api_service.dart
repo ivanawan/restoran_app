@@ -18,7 +18,7 @@ class ApiService{
 
       return dataResto;
     } else {
-      throw Exception('Failed to load recommendation restaurants');
+      throw Exception('Failed to load restaurants list');
     }
   }
 
@@ -29,7 +29,7 @@ class ApiService{
 
       return Restaurant.fromJson(data['restaurant']);
     } else {
-      throw Exception('Failed to load recommendation restaurants');
+      throw Exception('Failed to load detail restaurants');
     }
   }
 
@@ -47,7 +47,7 @@ class ApiService{
       return dataResto;
 
     } else {
-      throw Exception('Failed to load recommendation restaurants');
+      throw Exception('Failed to load search restaurants');
     }
   }
 

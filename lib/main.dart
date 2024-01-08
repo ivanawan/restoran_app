@@ -1,7 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:provider/provider.dart';
+import 'package:restoran_app/providers/resto_favorite.dart';
+import 'package:restoran_app/providers/scheduling_provider.dart';
+import 'package:restoran_app/screens/detail.dart';
 import 'package:restoran_app/screens/initial_screen.dart';
+import 'package:restoran_app/utils/background_service.dart';
+import 'package:restoran_app/utils/notification_helper.dart';
 
-void main() {
+final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
+FlutterLocalNotificationsPlugin();
+
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
+void main()  async{
+  WidgetsFlutterBinding.ensureInitialized();
+
+  final NotificationHelper _notificationHelper = NotificationHelper();
+  final BackgroundService _service = BackgroundService();
+
+  _service.initializeIsolate();
+  await _notificationHelper.initNotifications(flutterLocalNotificationsPlugin);
+
   runApp(const MyApp());
 }
 
@@ -11,7 +31,10 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return MultiProvider(providers: [
+      ChangeNotifierProvider(create: (_) => RestoFavoriteProvider()),
+      ChangeNotifierProvider(create: (_) => SchedulingProvider()),
+    ],child: MaterialApp(
       title: 'Flutter Resto APP',
       theme: ThemeData(
         // This is the theme of your application.
@@ -32,7 +55,16 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home:  initialScreen(),
+      initialRoute:'/',
+      navigatorKey: navigatorKey,
+      routes: {
+        '/':(context)=> initialScreen(),
+        '/detail':(context)=>Detail(
+            id:ModalRoute.of(context)?.settings.arguments as String,
+        )
+      },
+      // home: Text('fff'),
+    )
     );
   }
 }

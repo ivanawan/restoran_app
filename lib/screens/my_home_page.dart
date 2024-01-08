@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:restoran_app/providers/resto_provider.dart';
 import 'package:restoran_app/screens/search_screen.dart';
+import 'package:restoran_app/utils/notification_helper.dart';
 import 'package:restoran_app/widgets/resto_llist.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -23,6 +24,9 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  final NotificationHelper _notificationHelper = NotificationHelper();
+
+
   @override
   Widget build(BuildContext context) {
     return  SingleChildScrollView(

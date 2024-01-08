@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:logger/logger.dart';
 import 'package:restoran_app/data/api/api_service.dart';
 import 'package:restoran_app/models/restaurant.dart';
 
@@ -24,7 +23,6 @@ class SearchRestoProvider extends ChangeNotifier{
       _state = ResultState.loading;
       notifyListeners();
       final resto = await ApiService().getSearchRestourant(query);
-      Logger().i(resto);
       if (resto.isEmpty) {
         _state = ResultState.noData;
         notifyListeners();

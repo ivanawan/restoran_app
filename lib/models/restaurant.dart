@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 import 'package:restoran_app/models/category.dart';
 import 'package:restoran_app/models/menu.dart';
@@ -7,7 +6,7 @@ import 'package:restoran_app/models/review.dart';
 class Restaurant {
   late String id;
   late String name;
-  late String description;
+  late String? description;
   late String pictureId;
   late String city;
   late num rating;
@@ -19,7 +18,6 @@ class Restaurant {
   Restaurant(
       {required this.id,
       required this.name,
-      required this.description,
       required this.pictureId,
       required this.city,
       required this.rating,
@@ -45,6 +43,16 @@ class Restaurant {
     reviews = restaurant['customerReviews'] != null
         ? List<Review>.from(restaurant["customerReviews"].map((x) => Review.fromJson(x)))
         : null;
+  }
+
+  Map<String,dynamic> toMap(){
+    return {
+      'id':id,
+      'name':name,
+      'city':city,
+      'rating':rating,
+      'pictureId':pictureId
+    };
   }
 
   Map<String, dynamic> toJson() {
