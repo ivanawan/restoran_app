@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:provider/provider.dart';
+import 'package:restoran_app/data/preference/setting.dart';
 import 'package:restoran_app/providers/resto_favorite.dart';
 import 'package:restoran_app/providers/scheduling_provider.dart';
 import 'package:restoran_app/providers/search_resto_provider.dart';

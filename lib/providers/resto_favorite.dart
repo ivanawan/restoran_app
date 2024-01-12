@@ -1,6 +1,7 @@
-import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
+import 'package:logger/logger.dart';
+import 'package:restoran_app/data/api/api_service.dart';
 import 'package:restoran_app/data/database/db_helper.dart';
 import 'package:restoran_app/models/restaurant.dart';
 
@@ -10,6 +11,8 @@ class RestoFavoriteProvider extends ChangeNotifier{
   late List<Restaurant> _restaurantResult;
   late ResultState _state;
   String _message = '';
+  bool _favorite =false;
+  bool get favorite => _favorite;
   String get message => _message;
   List<Restaurant> get result => _restaurantResult;
   ResultState get state => _state;
@@ -40,6 +43,40 @@ class RestoFavoriteProvider extends ChangeNotifier{
     }
   }
 
+  Future<void> unFavorite(String id) async {
+    try {
+      await DBHelper().delete(id);
+      await fetchAllResto();
+      _favorite=false;
+      notifyListeners();
+    } catch (e) {
+      _state = ResultState.error;
+      notifyListeners();
+    }
+
+  }
+
+  Future<void> favorited(String id) async {
+    try {
+      if(!favorite){
+        Restaurant data = await ApiService().getRestourantDetail(id);
+        await DBHelper().insert(data);
+      }
+
+      await fetchAllResto();
+      _favorite=true;
+      notifyListeners();
+    } catch (e) {
+      _state = ResultState.error;
+      notifyListeners();
+    }
+  }
+
+  Future<void> checkFavorit(String id) async {
+    List<Restaurant> result=await DBHelper().getById(id);
+     _favorite=result.isNotEmpty;
+    notifyListeners();
+  }
 
 
 }

@@ -36,10 +36,7 @@ class FavoritScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                ChangeNotifierProvider<RestoFavoriteProvider>(
-                  create:(_)=> RestoFavoriteProvider(),
-                  child:  RestoListFavorit(),
-                ),
+                 RestoListFavorit(),
               ],
             )
         )

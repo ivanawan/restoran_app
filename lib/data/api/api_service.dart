@@ -7,23 +7,16 @@ class ApiService{
   final String apiUrl="https://restaurant-api.dicoding.dev";
 
   Future<List<Restaurant>> getRestourant() async{
-    final response= await http.get(Uri.parse('$apiUrl/list'));
+    final response= await getData('list');
     if (response.statusCode == 200) {
-      var data = json.decode(response.body.toString());
-      List<Restaurant> dataResto=[];
-
-      for (Map<String, dynamic> row in data['restaurants']) {
-        dataResto.add(Restaurant.fromJson(row));
-      }
-
-      return dataResto;
+      return parseToList(response.body.toString());
     } else {
       throw Exception('Failed to load restaurants list');
     }
   }
 
   Future<Restaurant> getRestourantDetail(String id) async{
-    final response= await http.get(Uri.parse('$apiUrl/detail/${id}'));
+    final response= await getData('detail/${id}');
     if (response.statusCode == 200) {
       var data = json.decode(response.body.toString());
 
@@ -34,21 +27,29 @@ class ApiService{
   }
 
   Future<List<Restaurant>> getSearchRestourant(String query) async{
-    final response= await http.get(Uri.parse('$apiUrl/search?q=${query}'));
+    final response= await getData('search?q=${query}');
     if (response.statusCode == 200) {
-      var data = json.decode(response.body.toString());
-
-      List<Restaurant> dataResto=[];
-
-      for (Map<String, dynamic> row in data['restaurants']) {
-        dataResto.add(Restaurant.fromJson(row));
-      }
-
-      return dataResto;
-
+      return parseToList(response.body.toString());
     } else {
       throw Exception('Failed to load search restaurants');
     }
   }
 
+  parseToList(String body){
+    var data = json.decode(body);
+
+    List<Restaurant> dataResto=[];
+
+    for (Map<String, dynamic> row in data['restaurants']) {
+      dataResto.add(Restaurant.fromJson(row));
+    }
+
+    return dataResto;
+  }
+
+  Future<http.Response> getData(String? query) async{
+    return await http.get(Uri.parse('$apiUrl/${query}'));
+  }
+
 }
+

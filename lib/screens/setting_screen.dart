@@ -52,6 +52,7 @@ class SettingScreenState extends State<SettingScreen> {
                     const Text('Allow Notification'),
                     Consumer<SchedulingProvider>(
                         builder: (context, scheduled, _) {
+                          scheduled.getSetting();
                       return Switch(
                         value: scheduled.isScheduled,
                         onChanged: (val) {

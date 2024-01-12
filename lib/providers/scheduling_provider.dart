@@ -8,14 +8,17 @@ class SchedulingProvider extends ChangeNotifier {
   bool _isScheduled = false;
   bool get isScheduled => _isScheduled;
 
-  Future<bool> getSetting() async {
-    return await SettingService().getSetting('notification');
+  getSetting() async {
+    _isScheduled= await SettingService().getSetting('notification');
+    notifyListeners();
   }
+
 
   scheduledNotification(bool value) async {
     _isScheduled = value;
     final cron = Cron();
     final DateTime now = DateTime.now();
+    SettingService().updateSetting('notification', value);
     try {
       if (_isScheduled) {
         notifyListeners();
